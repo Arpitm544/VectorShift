@@ -2,21 +2,25 @@ import axios from "axios";
 import { useStore } from "./store";
 
 export const submitPipeline = async () => {
-  const { nodes, edges } = useStore.getState();   // ⭐ this is key
+  const { nodes, edges } = useStore.getState();
 
   try {
-    const response = await axios.post("http://localhost:8000/pipelines/parse", {
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
+    const response = await axios.post(`${backendUrl}/pipelines/parse`, {
       nodes,
       edges,
     });
 
-    const { num_nodes, num_edges, is_dag } = response.data;
+    const data = response.data || {};
+    // replace store nodes with backend nodes if provided
+    if (Array.isArray(data.nodes)) {
+      // zustand: set state directly
+      useStore.setState({ nodes: data.nodes });
+    }
 
-    alert(
-      `Nodes: ${num_nodes}\nEdges: ${num_edges}\nDAG: ${is_dag ? "Yes" : "No"}`
-    );
+    const msg = `Nodes: ${data.num_nodes}\nEdges: ${data.num_edges}\nIs DAG: ${data.is_dag}`;
+    window.alert(msg);
   } catch (err) {
-    console.error(err);
-    alert("Error submitting pipeline.");
+    window.alert("Error submitting pipeline: " + (err.response?.data || err.message || err));
   }
 };
