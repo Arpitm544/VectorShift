@@ -6,7 +6,7 @@ export const submitPipeline = async () => {
 
   try {
     const backendUrl = process.env.REACT_APP_BACKEND_URL;
-    const response = await axios.post(`${backendUrl}`, {
+    const response = await axios.post(`${backendUrl}/pipelines/parse`, {
       nodes,
       edges,
     });
