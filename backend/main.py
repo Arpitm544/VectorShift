@@ -20,6 +20,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def home():
+    return {"message": "Backend is running"}
+
 @app.post("/pipelines/parse")
 def parse_pipeline(payload: Dict = Body(...)):
     nodes = payload.get("nodes", []) or []
