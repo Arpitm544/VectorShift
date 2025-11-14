@@ -5,8 +5,8 @@ export const submitPipeline = async () => {
   const { nodes, edges } = useStore.getState();
 
   try {
-    const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
-    const response = await axios.post(`${backendUrl}/pipelines/parse`, {
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+    const response = await axios.post(`${backendUrl}`, {
       nodes,
       edges,
     });
