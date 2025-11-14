@@ -1,7 +1,6 @@
 // store.js
 
-import { createWithEqualityFn } from "zustand/traditional";
-import { shallow } from "zustand/shallow";
+import { create } from "zustand";
 import {
     addEdge,
     applyNodeChanges,
@@ -9,7 +8,7 @@ import {
     MarkerType,
   } from 'reactflow';
 
-export const useStore = createWithEqualityFn((set, get) => ({
+export const useStore = create((set, get) => ({
     nodes: [],
     edges: [],
     getNodeID: (type) => {
@@ -52,4 +51,4 @@ export const useStore = createWithEqualityFn((set, get) => ({
         }),
       });
     },
-  }), shallow);
+  }));
